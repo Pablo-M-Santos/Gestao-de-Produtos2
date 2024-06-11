@@ -1,6 +1,8 @@
 package Visao;
 
 import Controle.Conexao;
+import Modelo.CadastroLogica;
+import Controle.CadastroControle;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
@@ -24,8 +26,6 @@ public class Cadastro extends JFrame {
     private JButton cancelarButton;
     private JComboBox<String> userTypeComboBox;
     private JPasswordField ConfirmarSenha;
-
-
 
     public Cadastro() {
         setContentPane(TelaCadastro);
@@ -88,16 +88,16 @@ public class Cadastro extends JFrame {
 
                 if (nome.isEmpty() || email.isEmpty() || cpf.isEmpty() || senha.isEmpty() || confirmarSenha.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos.");
-                } else if (!validateEmail(email)) {
+                } else if (!CadastroLogica.validateEmail(email)) {
                     JOptionPane.showMessageDialog(null, "Por favor, insira um email válido.");
-                } else if (!validateCPF(cpf)) {
+                } else if (!CadastroLogica.validateCPF(cpf)) {
                     JOptionPane.showMessageDialog(null, "Por favor, insira um CPF válido.");
-                } else if (!validatePasswordChars(senha)) {
+                } else if (!CadastroLogica.validatePasswordChars(senha)) {
                     JOptionPane.showMessageDialog(null, "A senha deve conter pelo menos um número, uma letra e um caractere especial.");
                 } else if (!senha.equals(confirmarSenha)) {
                     JOptionPane.showMessageDialog(null, "As senhas não coincidem.");
                 } else {
-                    Conexao.InserirUsuario(nome, email, cpf, senha, perfil);
+                    CadastroControle.InserirUsuario(nome, email, cpf, senha, perfil);
                     JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!");
                     dispose();
                     new Login();
@@ -130,69 +130,6 @@ public class Cadastro extends JFrame {
         passwordField.setForeground(Color.GRAY);
         passwordField.setEchoChar((char) 0); // Mostrar o texto do placeholder
         passwordField.setText(placeholder);
-    }
-
-    // Método para validar se a senha possui número, letra e caractere especial
-    private boolean validatePasswordChars(String senha) {
-        boolean hasNumber = false;
-        boolean hasLetter = false;
-        boolean hasSpecialChar = false;
-
-        for (char c : senha.toCharArray()) {
-            if (Character.isDigit(c)) {
-                hasNumber = true;
-            } else if (Character.isLetter(c)) {
-                hasLetter = true;
-            } else if (!Character.isLetterOrDigit(c)) {
-                hasSpecialChar = true;
-            }
-        }
-
-        return hasNumber && hasLetter && hasSpecialChar;
-    }
-
-    // Método para validar se o email está em um formato válido
-    private boolean validateEmail(String email) {
-        String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*(?:\\.[a-zA-Z]{2,7})$";
-        return email.matches(regex);
-    }
-
-    // Método para validar o CPF
-    private boolean validateCPF(String cpf) {
-        cpf = cpf.replaceAll("[^\\d]", "");
-
-        // Verifica se o CPF tem 11 dígitos
-        if (cpf.length() != 11) {
-            return false;
-        }
-
-        // Valida o CPF usando o algoritmo
-        int[] numbers = new int[11];
-        for (int i = 0; i < 11; i++) {
-            numbers[i] = Character.getNumericValue(cpf.charAt(i));
-        }
-
-        int sum = 0;
-        for (int i = 0; i < 9; i++) {
-            sum += numbers[i] * (10 - i);
-        }
-
-        int remainder = sum % 11;
-        int expectedDigit1 = (remainder < 2) ? 0 : (11 - remainder);
-
-        if (numbers[9] != expectedDigit1) {
-            return false;
-        }
-
-        sum = 0;
-        for (int i = 0; i < 10; i++) {
-            sum += numbers[i] * (11 - i);
-        }
-
-        remainder = sum % 11;
-        int expectedDigit2 = (remainder < 2) ? 0 : (11 - remainder);
-
-        return numbers[10] == expectedDigit2;
     }
 
     // Método para adicionar placeholder em campos de texto

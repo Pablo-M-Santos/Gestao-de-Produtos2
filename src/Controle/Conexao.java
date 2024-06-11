@@ -35,25 +35,7 @@ public class Conexao {
         }
     }
 
-    // Método para verificar o login
-    public static boolean verificarLogin(String email, String senha) {
-        String sql = "SELECT * FROM usuario WHERE email = ? AND senha = ?";
 
-        try (Connection conn = conectar();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, email);
-            pstmt.setString(2, senha);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.next(); // retorna true se encontrar um resultado
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
 
 
 }

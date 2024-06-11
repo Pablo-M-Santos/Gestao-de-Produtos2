@@ -1,6 +1,6 @@
 package Visao;
 
-import Controle.Conexao;
+import Modelo.LoginLogica;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +19,6 @@ public class Login extends JFrame {
     private JPasswordField passwordField1;
     private JTextField textField2;
     private JButton cancelarButton;
-
 
     public Login() {
         setContentPane(TelaLogin);
@@ -69,20 +68,11 @@ public class Login extends JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                    String email = textField2.getText();
-                    String senha = new String(passwordField1.getPassword());
+                String email = textField2.getText();
+                String senha = new String(passwordField1.getPassword());
 
-                if ("admin".equals(email) && "admin".equals(senha)) {
-                    JOptionPane.showMessageDialog(null, "Bem-vindo, administrador!");
-                    new adminHome(); // Abre a tela de administrador
-                    dispose(); // Fecha a tela de login
-                } else if (Conexao.verificarLogin(email, senha)) {
-                    JOptionPane.showMessageDialog(null, "Login realizado com sucesso!");
-                    new Home(); // Abre a tela Home
-                    dispose(); // Fecha a tela de login
-                } else {
-                    JOptionPane.showMessageDialog(null, "Email ou senha incorretos.");
-                }
+                LoginLogica modelo = new LoginLogica(email, senha);
+                modelo.fazerLogin();
             }
         });
 
@@ -101,7 +91,6 @@ public class Login extends JFrame {
         }
         resetarPlaceholder(passwordField1, "Digite sua Senha: ");
     }
-
 
     private void resetarPlaceholder(JTextField textField, String placeholder) {
         textField.setForeground(Color.GRAY);

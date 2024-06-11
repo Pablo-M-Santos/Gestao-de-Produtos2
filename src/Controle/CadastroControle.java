@@ -20,24 +20,22 @@ public class CadastroControle {
         }
     }
 
-    private boolean persistirUsuario(CadastroLogica usuario) {
+    public static void InserirUsuario(String nome, String email, String cpf, String senha, String perfil) {
         String sql = "INSERT INTO usuario (nome, email, cpf, senha, perfil) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, usuario.getNome());
-            pstmt.setString(2, usuario.getEmail());
-            pstmt.setString(3, usuario.getCpf());
-            pstmt.setString(4, usuario.getSenha());
-            pstmt.setString(5, usuario.getPerfil());
+            pstmt.setString(1, nome);
+            pstmt.setString(2, email);
+            pstmt.setString(3, cpf);
+            pstmt.setString(4, senha);
+            pstmt.setString(5, perfil);
 
-            int rowsAffected = pstmt.executeUpdate();
-            return rowsAffected > 0;
-
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
     }
 }
+
