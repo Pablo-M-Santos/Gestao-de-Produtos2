@@ -1,6 +1,6 @@
 package Modelo;
 
-public class UsuarioModelo {
+public class CadastroLogica {
     private String nome;
     private String email;
     private String cpf;
@@ -8,7 +8,7 @@ public class UsuarioModelo {
     private String perfil;
 
     // Construtor
-    public UsuarioModelo(String nome, String email, String cpf, String senha, String perfil) {
+    public CadastroLogica(String nome, String email, String cpf, String senha, String perfil) {
         this.nome = nome;
         this.email = email;
         this.cpf = cpf;

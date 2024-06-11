@@ -53,8 +53,4 @@ public class adminHome extends JFrame {
             }
         });
     }
-
-    public static void main(String[] args) {
-        new adminHome();
-    }
 }

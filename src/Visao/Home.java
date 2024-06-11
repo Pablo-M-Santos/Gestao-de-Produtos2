@@ -6,6 +6,8 @@ import java.awt.event.*;
 public class Home extends JFrame {
     private JPanel TelaHome;
     private JLabel opcoes;
+    private JButton queroComprarButton;
+
 
     public Home() {
         setContentPane(TelaHome);
@@ -32,7 +34,7 @@ public class Home extends JFrame {
         menuItem1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Home();
+                new Home(); 
                 dispose();
             }
         });
@@ -62,6 +64,13 @@ public class Home extends JFrame {
                 if (SwingUtilities.isLeftMouseButton(e)) {
                     popupMenu.show(opcoes, e.getX(), e.getY());
                 }
+            }
+        });
+        queroComprarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Produtos();
+                dispose();
             }
         });
     }

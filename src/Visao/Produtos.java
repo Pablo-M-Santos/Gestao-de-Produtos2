@@ -180,7 +180,7 @@ public class Produtos extends JFrame {
 
                 document.add(new Paragraph("\n"));
 
-                PdfPTable table = new PdfPTable(6);
+                PdfPTable table = new PdfPTable(5);
                 table.setWidthPercentage(100);
                 table.setSpacingBefore(10f);
                 table.setSpacingAfter(10f);
@@ -191,14 +191,12 @@ public class Produtos extends JFrame {
                 PdfPCell cell3 = new PdfPCell(new Phrase("Descrição", boldFont));
                 PdfPCell cell4 = new PdfPCell(new Phrase("Quantidade", boldFont));
                 PdfPCell cell5 = new PdfPCell(new Phrase("Valor Unitário", boldFont));
-                PdfPCell cell6 = new PdfPCell(new Phrase("Total", boldFont));
 
                 table.addCell(cell1);
                 table.addCell(cell2);
                 table.addCell(cell3);
                 table.addCell(cell4);
                 table.addCell(cell5);
-                table.addCell(cell6);
 
                 // Adicionando dados da tabela
                 DefaultTableModel model = (DefaultTableModel) table1.getModel();
@@ -209,18 +207,22 @@ public class Produtos extends JFrame {
                         String nome = (String) model.getValueAt(i, 1);
                         String descricao = (String) model.getValueAt(i, 2);
                         double valorUnitario = (double) model.getValueAt(i, 5);
-                        double totalProduto = count * valorUnitario;
 
                         table.addCell(new Phrase(String.valueOf(id), regularFont));
                         table.addCell(new Phrase(nome, regularFont));
                         table.addCell(new Phrase(descricao, regularFont));
                         table.addCell(new Phrase(String.valueOf(count), regularFont));
                         table.addCell(new Phrase(String.valueOf(valorUnitario), regularFont));
-                        table.addCell(new Phrase(String.valueOf(totalProduto), regularFont));
                     }
                 }
 
                 document.add(table);
+
+                // Adicionar o valor total na parte inferior
+                Paragraph totalParagrafo = new Paragraph("Valor Total: R$ " + total, boldFont);
+                totalParagrafo.setAlignment(Element.ALIGN_RIGHT);
+                document.add(totalParagrafo);
+
                 document.close();
 
                 JOptionPane.showMessageDialog(null, "Nota fiscal salva em: " + filePath);
@@ -293,9 +295,5 @@ public class Produtos extends JFrame {
         protected void fireEditingStopped() {
             super.fireEditingStopped();
         }
-    }
-
-    public static void main(String[] args) {
-        new Produtos();
     }
 }

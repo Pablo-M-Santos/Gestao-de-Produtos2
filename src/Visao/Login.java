@@ -20,6 +20,7 @@ public class Login extends JFrame {
     private JTextField textField2;
     private JButton cancelarButton;
 
+
     public Login() {
         setContentPane(TelaLogin);
         setSize(850, 700);
@@ -68,11 +69,13 @@ public class Login extends JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String email = textField2.getText();
-                String senha = new String(passwordField1.getPassword());
+                    String email = textField2.getText();
+                    String senha = new String(passwordField1.getPassword());
 
-                if ("Digite seu Email: ".equals(email) || "Digite sua Senha: ".equals(senha)) {
-                    JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos.");
+                if ("admin".equals(email) && "admin".equals(senha)) {
+                    JOptionPane.showMessageDialog(null, "Bem-vindo, administrador!");
+                    new adminHome(); // Abre a tela de administrador
+                    dispose(); // Fecha a tela de login
                 } else if (Conexao.verificarLogin(email, senha)) {
                     JOptionPane.showMessageDialog(null, "Login realizado com sucesso!");
                     new Home(); // Abre a tela Home
@@ -150,9 +153,5 @@ public class Login extends JFrame {
                 }
             }
         });
-    }
-
-    public static void main(String[] args) {
-        new Login();
     }
 }
